@@ -1,0 +1,6 @@
+{
+  "name": "Semantic Kernel IDE",
+  "description": "Desktop-class IDE visual component and observability dashboard for PostgreSQL Semantic Kernel (kernel-srv)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
