@@ -44,8 +44,9 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
   const [eventType, setEventType] = useState('ORDER_STATE_COMMITTED');
   const [aggregateType, setAggregateType] = useState('ORDER');
   const [aggregateId, setAggregateId] = useState('ord_' + Math.floor(1000 + Math.random() * 9000));
+  const [actor, setActor] = useState('sys_architect');
   const [planNumber, setPlanNumber] = useState('PLAN-2026-001');
-  const [causalityParentId, setCausalityParentId] = useState('');
+  const [causationId, setCausationId] = useState('');
   const [idempotencyKey, setIdempotencyKey] = useState('idemp_' + Math.random().toString(36).substring(7));
   const [payloadJson, setPayloadJson] = useState(
     JSON.stringify(
@@ -93,11 +94,13 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
     setIsSubmitting(true);
     try {
       const result = await onSubmitTransition({
+        actor: actor || 'sys_architect',
         event_type: eventType,
         aggregate_type: aggregateType,
         aggregate_id: aggregateId,
         plan_number: planNumber || undefined,
-        causality_parent_id: causalityParentId || undefined,
+        causation_id: causationId || undefined,
+        causality_parent_id: causationId || undefined,
         idempotency_key: idempotencyKey || undefined,
         payload: parsedPayload,
       });
@@ -214,7 +217,21 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block text-[11px] text-slate-400 font-bold mb-1">ACTOR (REQUIRED)</label>
+                <input
+                  type="text"
+                  value={actor}
+                  onChange={(e) => setActor(e.target.value)}
+                  className={`w-full p-2 rounded border outline-none font-mono ${
+                    isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
+                  }`}
+                  placeholder="e.g. sys_architect"
+                  required
+                />
+              </div>
+
               <div>
                 <label className="block text-[11px] text-slate-400 font-bold mb-1">AGGREGATE ID</label>
                 <input
@@ -245,10 +262,10 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] text-slate-400 font-bold mb-1">CAUSALITY PARENT ID</label>
+                <label className="block text-[11px] text-slate-400 font-bold mb-1">CAUSATION ID (PARENT)</label>
                 <select
-                  value={causalityParentId}
-                  onChange={(e) => setCausalityParentId(e.target.value)}
+                  value={causationId}
+                  onChange={(e) => setCausationId(e.target.value)}
                   className={`w-full p-2 rounded border outline-none font-mono text-[11px] ${
                     isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
                   }`}

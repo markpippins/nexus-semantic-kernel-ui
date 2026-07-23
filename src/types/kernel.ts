@@ -1,11 +1,16 @@
 export interface TransitionRequest {
+  actor: string;
   event_type: string;
   aggregate_type: string;
   aggregate_id: string;
-  payload: Record<string, any>;
+  payload?: Record<string, any>;
+  authority?: string;
+  receipt?: Record<string, any>;
+  causation_id?: string;
+  correlation_id?: string;
+  plan_number?: string;
   idempotency_key?: string;
   causality_parent_id?: string;
-  plan_number?: string;
 }
 
 export interface TransitionEvent {
@@ -16,8 +21,10 @@ export interface TransitionEvent {
   payload: Record<string, any>;
   committed_at: string;
   propagation_lag_ms: number;
+  actor?: string;
   receipt_id?: string | null;
   causality_parent_id?: string | null;
+  causation_id?: string | null;
   plan_number?: string | null;
 }
 
@@ -36,7 +43,11 @@ export interface CausalityNode {
 
 export interface IssueReceiptRequest {
   event_id: string;
+  receipt_type: string;
+  receipt_hash: string;
+  issued_by: string;
   plan_number?: string;
+  metadata?: Record<string, any>;
   issuer_identity?: string;
 }
 
@@ -49,6 +60,8 @@ export interface Receipt {
   plan_number: string | null;
   issuer: string;
   hash: string;
+  receipt_type?: string;
+  issued_by?: string;
 }
 
 export interface ReceiptChainNode {
@@ -64,13 +77,15 @@ export interface ReceiptChainNode {
 
 export interface PlanReceipts {
   plan_number: string;
-  plan_name: string;
+  plan_name?: string;
   total_events: number;
   receipts_issued: number;
   completion_pct: number;
   status: 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'PENDING';
-  last_updated: string;
+  last_updated?: string;
   receipts: Receipt[];
+  summary?: Record<string, any>;
+  chains?: ReceiptChainNode[];
 }
 
 export interface AggregateEvent {
@@ -101,7 +116,13 @@ export interface PolicyMaturity {
   ratio: number; // percentage compiled vs total
   maturity_grade: 'ENTERPRISE' | 'STABLE' | 'TRANSITIONAL' | 'EXPERIMENTAL';
   total_rules: number;
-  breakdown: Array<{
+  enabled_rules?: number;
+  compiled_enabled?: number;
+  data_driven_enabled?: number;
+  disabled_rules?: number;
+  data_driven_pct?: string | number;
+  compiled_pct?: string | number;
+  breakdown?: Array<{
     aggregate_type: string;
     compiled: number;
     data_driven: number;
@@ -119,6 +140,16 @@ export interface RecentEvent {
   plan_number: string | null;
 }
 
+export interface OrphanReceiptDetail {
+  receipt_id: string;
+  receipt_type?: string;
+  receipt_hash?: string;
+  event_id: string;
+  issued_by?: string;
+  created_at?: string;
+  issue_reason?: string;
+}
+
 export interface ReceiptIntegrity {
   status: 'HEALTHY' | 'DEGRADED' | 'CRITICAL';
   total_receipts: number;
@@ -126,11 +157,9 @@ export interface ReceiptIntegrity {
   orphaned_ids: string[];
   integrity_pct: number;
   last_audit_at: string;
-  orphan_check_details: Array<{
-    receipt_id: string;
-    event_id: string;
-    issue_reason: string;
-  }>;
+  orphan_check_details: OrphanReceiptDetail[];
+  orphan_count?: number;
+  orphans?: OrphanReceiptDetail[];
 }
 
 export interface KernelHealth {
@@ -138,10 +167,12 @@ export interface KernelHealth {
   db: boolean;
   pgNotify: boolean;
   subscribers: number;
-  uptime_seconds: number;
-  recent_events_count: number;
-  avg_lag_ms: number;
-  kernel_version: string;
+  port?: number;
+  service?: string;
+  uptime_seconds?: number;
+  recent_events_count?: number;
+  avg_lag_ms?: number;
+  kernel_version?: string;
 }
 
 export interface SSEKernelEvent {

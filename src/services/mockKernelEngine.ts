@@ -335,7 +335,9 @@ class MockKernelEngine {
       payload: req.payload || {},
       committed_at: new Date().toISOString(),
       propagation_lag_ms: lag,
-      causality_parent_id: req.causality_parent_id || null,
+      actor: req.actor || 'sys_architect',
+      causation_id: req.causation_id || req.causality_parent_id || null,
+      causality_parent_id: req.causation_id || req.causality_parent_id || null,
       plan_number: req.plan_number || `PLAN-2026-00${Math.floor(1 + Math.random() * 3)}`,
       receipt_id: null,
     };
@@ -429,10 +431,14 @@ class MockKernelEngine {
   }
 
   public async issueReceipt(req: IssueReceiptRequest): Promise<Receipt> {
-    const receipt = this.issueReceiptInternal(req.event_id, req.plan_number, req.issuer_identity);
+    const issuer = req.issued_by || req.issuer_identity || 'kernel.sys_issue_receipt';
+    const receipt = this.issueReceiptInternal(req.event_id, req.plan_number, issuer);
     if (!receipt) {
       throw new Error(`Target event_id '${req.event_id}' not found in kernel transition store.`);
     }
+    if (req.receipt_type) receipt.receipt_type = req.receipt_type;
+    if (req.receipt_hash) receipt.hash = req.receipt_hash;
+    receipt.issued_by = issuer;
     return receipt;
   }
 

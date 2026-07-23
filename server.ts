@@ -11,7 +11,7 @@ app.use(express.json());
 const KERNEL_SRV_URL = process.env.KERNEL_SRV_URL || 'http://localhost:8100';
 
 // Proxy middleware or direct mock endpoint handler
-app.get(['/api/health', '/health'], (req, res) => {
+app.get(['/api/health', '/health', '/api/kernel/health'], (req, res) => {
   res.json({
     status: 'healthy',
     db: true,

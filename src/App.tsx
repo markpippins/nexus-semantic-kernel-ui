@@ -233,7 +233,7 @@ export default function App() {
               isDark={isDark}
               onClearLogs={() => setSseLogs([])}
               isPaused={isSsePaused}
-              setIsPaused={setIsPaused}
+              setIsPaused={setIsSsePaused}
             />
           )}
 

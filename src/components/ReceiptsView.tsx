@@ -37,7 +37,9 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
 }) => {
   const [targetEventId, setTargetEventId] = useState(initialEventIdToIssue || allEvents[0]?.event_id || '');
   const [planNumber, setPlanNumber] = useState('PLAN-2026-001');
-  const [issuerIdentity, setIssuerIdentity] = useState('sys_kernel_authority');
+  const [receiptType, setReceiptType] = useState('TRANSACTION_COMMIT');
+  const [issuedBy, setIssuedBy] = useState('sys_kernel_authority');
+  const [receiptHash, setReceiptHash] = useState('');
   const [isIssuing, setIsIssuing] = useState(false);
   const [issueError, setIssueError] = useState<string | null>(null);
 
@@ -85,10 +87,13 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
     setIssueError(null);
     setIsIssuing(true);
     try {
+      const generatedHash = receiptHash.trim() || Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
       await kernelApiClient.issueReceipt({
         event_id: targetEventId,
-        plan_number: planNumber,
-        issuer_identity: issuerIdentity,
+        receipt_type: receiptType,
+        receipt_hash: generatedHash,
+        issued_by: issuedBy,
+        plan_number: planNumber || undefined,
       });
       onReceiptIssued();
       await fetchReceiptData();
@@ -169,6 +174,38 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
+                  <label className="block text-[11px] text-slate-400 font-bold mb-1">RECEIPT TYPE</label>
+                  <select
+                    value={receiptType}
+                    onChange={(e) => setReceiptType(e.target.value)}
+                    className={`w-full p-2 rounded border outline-none font-mono ${
+                      isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
+                    }`}
+                  >
+                    <option value="TRANSACTION_COMMIT">TRANSACTION_COMMIT</option>
+                    <option value="POLICY_ATTESTATION">POLICY_ATTESTATION</option>
+                    <option value="STATE_CHECKPOINT">STATE_CHECKPOINT</option>
+                    <option value="AUDIT_VERIFICATION">AUDIT_VERIFICATION</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] text-slate-400 font-bold mb-1">ISSUED BY (ISSUER)</label>
+                  <input
+                    type="text"
+                    value={issuedBy}
+                    onChange={(e) => setIssuedBy(e.target.value)}
+                    className={`w-full p-2 rounded border outline-none font-mono ${
+                      isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
+                    }`}
+                    placeholder="e.g. sys_kernel_authority"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
                   <label className="block text-[11px] text-slate-400 font-bold mb-1">PLAN NUMBER</label>
                   <input
                     type="text"
@@ -177,18 +214,20 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
                     className={`w-full p-2 rounded border outline-none font-mono ${
                       isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
                     }`}
+                    placeholder="e.g. PLAN-2026-001"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-slate-400 font-bold mb-1">ISSUER IDENTITY</label>
+                  <label className="block text-[11px] text-slate-400 font-bold mb-1">SHA-256 HASH (AUTO/CUSTOM)</label>
                   <input
                     type="text"
-                    value={issuerIdentity}
-                    onChange={(e) => setIssuerIdentity(e.target.value)}
-                    className={`w-full p-2 rounded border outline-none font-mono ${
-                      isDark ? 'bg-slate-950 border-slate-700 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'
+                    value={receiptHash}
+                    onChange={(e) => setReceiptHash(e.target.value)}
+                    className={`w-full p-2 rounded border outline-none font-mono text-[10px] ${
+                      isDark ? 'bg-slate-950 border-slate-700 text-amber-400' : 'bg-slate-100 border-slate-300 text-amber-700'
                     }`}
+                    placeholder="Auto-generated if empty"
                   />
                 </div>
               </div>
