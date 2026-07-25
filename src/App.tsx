@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   ActiveTab,
+  ThemeMode,
   RecentEvent,
   PolicyMaturity,
   ReceiptIntegrity,
@@ -24,9 +25,24 @@ import { MockEngineSettingsModal } from './components/MockEngineSettingsModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
-  const [isDark, setIsDark] = useState(true);
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('kernel_theme_mode');
+    if (saved === 'steel' || saved === 'dark' || saved === 'light') {
+      return saved as ThemeMode;
+    }
+    return 'steel';
+  });
+  const isDark = themeMode !== 'light';
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('kernel_theme_mode', themeMode);
+  }, [themeMode]);
+
+  const handleSetIsDark = (dark: boolean) => {
+    setThemeMode(dark ? 'dark' : 'light');
+  };
 
   // Api Configuration
   const [config, setConfig] = useState<KernelApiConfig>(kernelApiClient.getConfig());
@@ -130,7 +146,11 @@ export default function App() {
     <div
       id="semantic-kernel-ide-root"
       className={`h-screen flex flex-col font-mono text-xs select-none transition-colors ${
-        isDark ? 'bg-[#010409] text-[#c9d1d9]' : 'bg-slate-100 text-slate-900'
+        themeMode === 'steel'
+          ? 'bg-[#181d25] text-[#e2e8f0]'
+          : isDark
+          ? 'bg-[#010409] text-[#c9d1d9]'
+          : 'bg-slate-100 text-slate-900'
       }`}
     >
       {/* ADDRESSBAR & BRANDING HEADER */}
@@ -140,7 +160,9 @@ export default function App() {
         config={config}
         health={health}
         isDark={isDark}
-        setIsDark={setIsDark}
+        themeMode={themeMode}
+        setThemeMode={setThemeMode}
+        setIsDark={handleSetIsDark}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onExecuteQuickTransition={() => setActiveTab('transitions')}
         onRefreshData={refreshData}
@@ -153,6 +175,7 @@ export default function App() {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           isDark={isDark}
+          themeMode={themeMode}
           health={health}
           eventsCount={recentEvents.length}
           orphanCount={receiptIntegrity?.orphaned_count || 0}
@@ -161,7 +184,13 @@ export default function App() {
         />
 
         {/* PRIMARY VIEW CONTENT AREA */}
-        <main className={`flex-1 overflow-y-auto relative ${isDark ? 'bg-[#010409]' : 'bg-slate-100'}`}>
+        <main className={`flex-1 overflow-y-auto relative ${
+          themeMode === 'steel'
+            ? 'bg-[#181d25]'
+            : isDark
+            ? 'bg-[#010409]'
+            : 'bg-slate-100'
+        }`}>
           {activeTab === 'overview' && (
             <OverviewDashboard
               recentEvents={recentEvents}
@@ -260,7 +289,9 @@ export default function App() {
       <footer
         id="ide-bottom-status-bar"
         className={`h-6 border-t flex items-center px-4 justify-between text-[10px] font-mono shrink-0 select-none z-10 ${
-          isDark
+          themeMode === 'steel'
+            ? 'bg-[#202632] border-[#3e4c60] text-[#94a3b8]'
+            : isDark
             ? 'bg-[#0d1117] border-[#30363d] text-[#8b949e]'
             : 'bg-slate-200 border-slate-300 text-slate-600'
         }`}
@@ -268,13 +299,15 @@ export default function App() {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-1.5">
             <span className="w-2 h-2 rounded-full bg-[#3fb950]" />
-            <span className="font-bold text-[#c9d1d9]">PG_KERNEL_READY</span>
+            <span className={`font-bold ${themeMode === 'steel' ? 'text-[#e2e8f0]' : isDark ? 'text-[#c9d1d9]' : 'text-slate-900'}`}>
+              PG_KERNEL_READY
+            </span>
           </div>
-          <div className="hidden sm:flex items-center space-x-1 text-[#8b949e]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#58a6ff]" />
+          <div className="hidden sm:flex items-center space-x-1 opacity-80">
+            <span className={`w-1.5 h-1.5 rounded-full ${themeMode === 'steel' ? 'bg-[#70b0e0]' : 'bg-[#58a6ff]'}`} />
             <span>CPU: 1.4%</span>
           </div>
-          <div className="hidden md:flex items-center space-x-1 text-[#8b949e]">
+          <div className="hidden md:flex items-center space-x-1 opacity-80">
             <span>MEM: 42MB</span>
           </div>
         </div>

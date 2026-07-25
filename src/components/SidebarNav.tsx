@@ -2,14 +2,14 @@ import React from 'react';
 import {
   ChevronLeft,
   ChevronRight,
-  Settings,
 } from 'lucide-react';
-import { ActiveTab, KernelHealth } from '../types/kernel';
+import { ActiveTab, KernelHealth, ThemeMode } from '../types/kernel';
 
 interface SidebarNavProps {
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
   isDark: boolean;
+  themeMode?: ThemeMode;
   health: KernelHealth | null;
   eventsCount: number;
   orphanCount: number;
@@ -21,6 +21,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   activeTab,
   setActiveTab,
   isDark,
+  themeMode = isDark ? 'dark' : 'light',
   health,
   eventsCount,
   orphanCount,
@@ -87,9 +88,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         title={isCollapsed ? item.label : undefined}
         className={`w-full flex items-center px-4 py-2 text-xs font-mono transition-colors ${
           isActive
-            ? isDark
+            ? themeMode === 'steel'
+              ? 'bg-[#2b3547] text-[#70b0e0] border-r-2 border-[#70b0e0] font-semibold'
+              : isDark
               ? 'bg-[#1f2937] text-[#58a6ff] border-r-2 border-[#58a6ff] font-semibold'
               : 'bg-cyan-100 text-cyan-900 border-r-2 border-cyan-600 font-semibold'
+            : themeMode === 'steel'
+            ? 'text-[#94a3b8] hover:bg-[#252e3d] hover:text-[#e2e8f0]'
             : isDark
             ? 'text-[#8b949e] hover:bg-[#161b22] hover:text-[#c9d1d9]'
             : 'text-slate-600 hover:bg-slate-200 hover:text-slate-900'
@@ -103,7 +108,9 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               <span
                 className={`ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-mono border font-bold ${
                   item.badgeColor ||
-                  (isDark
+                  (themeMode === 'steel'
+                    ? 'bg-[#2b3648] text-[#e2e8f0] border-[#3e4c60]'
+                    : isDark
                     ? 'bg-[#30363d] text-[#c9d1d9] border-[#484f58]'
                     : 'bg-slate-200 text-slate-800 border-slate-300')
                 }`}
@@ -123,16 +130,24 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       className={`relative flex flex-col border-r transition-all duration-200 select-none ${
         isCollapsed ? 'w-16' : 'w-52 sm:w-56'
       } ${
-        isDark ? 'bg-[#0d1117] border-[#30363d] text-[#c9d1d9]' : 'bg-slate-50 border-slate-300 text-slate-700'
+        themeMode === 'steel'
+          ? 'bg-[#202632] border-[#3e4c60] text-[#e2e8f0]'
+          : isDark
+          ? 'bg-[#0d1117] border-[#30363d] text-[#c9d1d9]'
+          : 'bg-slate-50 border-slate-300 text-slate-700'
       }`}
     >
       {/* COLLAPSE / EXPAND TOGGLE BAR */}
       <div
         className={`h-8 flex items-center px-3 border-b text-xs font-mono justify-between ${
-          isDark ? 'border-[#30363d] text-[#8b949e]' : 'border-slate-200 text-slate-500'
+          themeMode === 'steel'
+            ? 'border-[#3e4c60] text-[#94a3b8]'
+            : isDark
+            ? 'border-[#30363d] text-[#8b949e]'
+            : 'border-slate-200 text-slate-500'
         }`}
       >
-        {!isCollapsed && <span className="uppercase text-[9px] font-bold tracking-widest text-[#8b949e]">IDE PANELS</span>}
+        {!isCollapsed && <span className="uppercase text-[9px] font-bold tracking-widest opacity-80">IDE PANELS</span>}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="p-1 rounded hover:bg-[#161b22] text-[#8b949e] hover:text-white transition-colors ml-auto"
@@ -147,7 +162,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {/* OPERATIONS GROUP */}
         <div>
           {!isCollapsed && (
-            <div className="px-4 mb-1 text-[10px] font-bold text-[#8b949e] tracking-widest uppercase">
+            <div className={`px-4 mb-1 text-[10px] font-bold tracking-widest uppercase ${themeMode === 'steel' ? 'text-[#94a3b8]' : 'text-[#8b949e]'}`}>
               Operations
             </div>
           )}
@@ -157,7 +172,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {/* OBSERVABILITY GROUP */}
         <div>
           {!isCollapsed && (
-            <div className="px-4 mb-1 text-[10px] font-bold text-[#8b949e] tracking-widest uppercase">
+            <div className={`px-4 mb-1 text-[10px] font-bold tracking-widest uppercase ${themeMode === 'steel' ? 'text-[#94a3b8]' : 'text-[#8b949e]'}`}>
               Observability
             </div>
           )}
@@ -167,8 +182,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
       {/* BOTTOM SSE STREAM STATUS CARD */}
       {!isCollapsed && (
-        <div className="p-3 border-t border-[#30363d] mt-auto">
-          <div className="bg-[#161b22] rounded-lg p-3 border border-[#30363d]">
+        <div className={`p-3 border-t mt-auto ${themeMode === 'steel' ? 'border-[#3e4c60]' : 'border-[#30363d]'}`}>
+          <div className={`rounded-lg p-3 border ${
+            themeMode === 'steel'
+              ? 'bg-[#1a202a] border-[#3e4c60]'
+              : 'bg-[#161b22] border-[#30363d]'
+          }`}>
             <div className="text-[10px] text-[#8b949e] uppercase mb-1 font-bold tracking-wider">
               SSE STREAM
             </div>
@@ -178,7 +197,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             </div>
             <div className="mt-1 text-[9px] text-[#8b949e] font-mono flex justify-between">
               <span>Channel:</span>
-              <span className="text-[#58a6ff]">kernel_ch</span>
+              <span className={themeMode === 'steel' ? 'text-[#70b0e0]' : 'text-[#58a6ff]'}>kernel_ch</span>
             </div>
           </div>
         </div>
