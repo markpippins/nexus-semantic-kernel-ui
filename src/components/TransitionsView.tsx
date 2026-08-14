@@ -140,12 +140,12 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
             <Zap className="w-5 h-5 text-amber-400" />
             <span>State Transitions (<code className="text-amber-400">kernel.sys_transition()</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Write surface for state transition events, idempotency checks & pg_notify commits
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 text-xs">
+        <div className="flex items-center space-x-2 text-sm">
           <span className="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 font-bold">
             Total Events: {events.length}
           </span>
@@ -160,7 +160,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
           }`}
         >
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
-            <span className="font-bold text-xs uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
+            <span className="font-bold text-sm uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>DISPATCH SYS_TRANSITION()</span>
             </span>
@@ -173,7 +173,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-3 text-sm">
             {submitError && (
               <div className="p-2.5 rounded bg-rose-950/60 border border-rose-800 text-rose-300 text-[11px]">
                 {submitError}
@@ -336,7 +336,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
           {/* SEARCH & FILTERS BAR */}
           <div className="p-3 border-b border-slate-800/80 flex flex-col sm:flex-row gap-3 items-center justify-between">
             <div
-              className={`flex-1 flex items-center px-3 py-1.5 rounded border text-xs ${
+              className={`flex-1 flex items-center px-3 py-1.5 rounded border text-sm ${
                 isDark ? 'bg-slate-950 border-slate-700 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-800'
               }`}
             >
@@ -350,7 +350,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
               />
             </div>
 
-            <div className="flex items-center space-x-2 text-xs">
+            <div className="flex items-center space-x-2 text-sm">
               <Filter className="w-3.5 h-3.5 text-slate-400" />
               <select
                 value={filterType}
@@ -371,7 +371,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
 
           {/* EVENTS TABLE */}
           <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left font-mono text-xs border-collapse">
+            <table className="w-full text-left font-mono text-sm border-collapse">
               <thead>
                 <tr
                   className={`border-b text-[11px] font-bold uppercase tracking-wider ${
@@ -462,7 +462,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
               </button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
               <div className="p-2 rounded bg-slate-950/60 border border-slate-800">
                 <span className="text-[10px] text-slate-400 block uppercase">EVENT TYPE</span>
                 <span className="font-bold text-cyan-300">{selectedEventModal.event_type}</span>
@@ -480,7 +480,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1 text-xs text-slate-400">
+              <div className="flex items-center justify-between mb-1 text-sm text-slate-400">
                 <span className="font-bold uppercase">PAYLOAD JSON</span>
                 <button
                   onClick={() => handleCopy(JSON.stringify(selectedEventModal.payload, null, 2))}
@@ -490,7 +490,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
                   <span>Copy Payload</span>
                 </button>
               </div>
-              <pre className="p-3 rounded bg-slate-950 border border-slate-800 text-emerald-400 text-xs overflow-x-auto max-h-60">
+              <pre className="p-3 rounded bg-slate-950 border border-slate-800 text-emerald-400 text-sm overflow-x-auto max-h-60">
                 {JSON.stringify(selectedEventModal.payload, null, 2)}
               </pre>
             </div>
@@ -502,7 +502,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
                   setSelectedEventModal(null);
                   setActiveTab('causality');
                 }}
-                className="px-3 py-1.5 rounded bg-cyan-950 border border-cyan-700 text-cyan-300 hover:bg-cyan-900 text-xs font-bold flex items-center space-x-1"
+                className="px-3 py-1.5 rounded bg-cyan-950 border border-cyan-700 text-cyan-300 hover:bg-cyan-900 text-sm font-bold flex items-center space-x-1"
               >
                 <GitCommit className="w-3.5 h-3.5" />
                 <span>View Causality Chain</span>
@@ -513,7 +513,7 @@ export const TransitionsView: React.FC<TransitionsViewProps> = ({
                   setSelectedEventModal(null);
                   setActiveTab('receipts');
                 }}
-                className="px-3 py-1.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300 hover:bg-emerald-900 text-xs font-bold flex items-center space-x-1"
+                className="px-3 py-1.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300 hover:bg-emerald-900 text-sm font-bold flex items-center space-x-1"
               >
                 <Receipt className="w-3.5 h-3.5" />
                 <span>Issue Receipt</span>

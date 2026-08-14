@@ -64,8 +64,8 @@ export const HeaderAddressBar: React.FC<HeaderAddressBarProps> = ({
       </div>
 
       {/* BREADCRUMB ADDRESS BAR */}
-      <div className="flex-1 px-2 sm:px-4 flex items-center space-x-2 text-xs sm:text-sm text-[#8b949e]">
-        <div className="flex items-center space-x-1.5 bg-[#161b22] border border-[#30363d] px-3 py-1 rounded w-full max-w-2xl font-mono text-xs">
+      <div className="flex-1 px-2 sm:px-4 flex items-center space-x-2 text-sm sm:text-sm text-[#8b949e]">
+        <div className="flex items-center space-x-1.5 bg-[#161b22] border border-[#30363d] px-3 py-1 rounded w-full max-w-2xl font-mono text-sm">
           <Terminal className="w-3.5 h-3.5 text-[#58a6ff] shrink-0 mr-1" />
           <span className="opacity-60 text-[#8b949e]">kernel-srv</span>
           <span className="text-[#30363d]">/</span>
@@ -104,7 +104,7 @@ export const HeaderAddressBar: React.FC<HeaderAddressBarProps> = ({
         {/* QUICK TRANSITION ACTION BUTTON */}
         <button
           onClick={onExecuteQuickTransition}
-          className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded bg-[#58a6ff] hover:bg-[#79c0ff] text-[#0d1117] font-bold text-xs font-mono shadow transition-colors"
+          className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded bg-[#58a6ff] hover:bg-[#79c0ff] text-[#0d1117] font-bold text-sm font-mono shadow transition-colors"
         >
           <span>⚡</span>
           <span>TRANSITION</span>

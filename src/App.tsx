@@ -129,7 +129,7 @@ export default function App() {
   return (
     <div
       id="semantic-kernel-ide-root"
-      className={`h-screen flex flex-col font-mono text-xs select-none transition-colors ${
+      className={`h-screen flex flex-col font-mono text-sm select-none transition-colors ${
         isDark ? 'bg-[#010409] text-[#c9d1d9]' : 'bg-slate-100 text-slate-900'
       }`}
     >

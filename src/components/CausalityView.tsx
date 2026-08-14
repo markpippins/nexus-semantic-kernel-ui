@@ -70,18 +70,18 @@ export const CausalityView: React.FC<CausalityViewProps> = ({
             <GitCommit className="w-5 h-5 text-cyan-400" />
             <span>Causality Chain (<code className="text-cyan-400">kernel.v_causality_chain</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Causality tree lineage scoped via PostgreSQL array containment <code className="text-purple-400">path @&gt; [event_id]</code>
           </p>
         </div>
 
         {/* SELECT EVENT SELECTOR */}
-        <div className="flex items-center space-x-2 text-xs">
+        <div className="flex items-center space-x-2 text-sm">
           <label className="text-slate-400 font-bold">Target Event:</label>
           <select
             value={activeEventId}
             onChange={(e) => setActiveEventId(e.target.value)}
-            className={`p-2 rounded border outline-none font-mono text-xs font-bold ${
+            className={`p-2 rounded border outline-none font-mono text-sm font-bold ${
               isDark ? 'bg-slate-900 border-slate-700 text-cyan-300' : 'bg-white border-slate-300 text-cyan-800'
             }`}
           >
@@ -108,7 +108,7 @@ export const CausalityView: React.FC<CausalityViewProps> = ({
             isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
           }`}
         >
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs">
+          <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-sm">
             <span className="font-bold text-cyan-400 uppercase tracking-wider flex items-center space-x-1.5">
               <Layers className="w-4 h-4" />
               <span>CAUSALITY LINEAGE TREE ({nodes.length} Nodes)</span>
@@ -158,7 +158,7 @@ export const CausalityView: React.FC<CausalityViewProps> = ({
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <GitCommit className="w-4 h-4 text-cyan-400 shrink-0" />
-                          <span className="font-bold text-xs text-cyan-300">{node.event_id}</span>
+                          <span className="font-bold text-sm text-cyan-300">{node.event_id}</span>
                           <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] text-slate-200 font-bold">
                             {node.event_type}
                           </span>
@@ -213,7 +213,7 @@ export const CausalityView: React.FC<CausalityViewProps> = ({
             isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
           }`}
         >
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs">
+          <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-sm">
             <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
               <FileCode className="w-4 h-4" />
               <span>NODE CAUSALITY METADATA</span>
@@ -221,7 +221,7 @@ export const CausalityView: React.FC<CausalityViewProps> = ({
           </div>
 
           {inspectedNode ? (
-            <div className="space-y-4 text-xs font-mono">
+            <div className="space-y-4 text-sm font-mono">
               <div className="p-3 rounded bg-slate-950/80 border border-slate-800 space-y-2">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Event ID:</span>

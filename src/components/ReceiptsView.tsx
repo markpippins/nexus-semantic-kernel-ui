@@ -117,14 +117,14 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
             <Receipt className="w-5 h-5 text-emerald-400" />
             <span>Cryptographic Receipts & Integrity (<code className="text-emerald-400">kernel.sys_issue_receipt()</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Audit chains (<code className="text-cyan-400">v_receipt_chain</code>), Plan progress (<code className="text-cyan-400">v_plan_receipts</code>) & Orphan receipt integrity checks
           </p>
         </div>
 
         <button
           onClick={fetchReceiptData}
-          className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center space-x-1"
+          className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-bold flex items-center space-x-1"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
           <span>Audit Integrity Now</span>
@@ -140,14 +140,14 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
               isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
             }`}
           >
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-sm font-bold text-emerald-400 uppercase tracking-wider">
               <span className="flex items-center space-x-1.5">
                 <Key className="w-4 h-4" />
                 <span>ISSUE RECEIPT (kernel.sys_issue_receipt)</span>
               </span>
             </div>
 
-            <form onSubmit={handleIssueReceipt} className="space-y-3 text-xs">
+            <form onSubmit={handleIssueReceipt} className="space-y-3 text-sm">
               {issueError && (
                 <div className="p-2.5 rounded bg-rose-950/60 border border-rose-800 text-rose-300 text-[11px]">
                   {issueError}
@@ -258,13 +258,13 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
               isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
             }`}
           >
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs font-bold text-cyan-400 uppercase tracking-wider">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-sm font-bold text-cyan-400 uppercase tracking-wider">
               <span>PLAN PROGRESS (kernel.v_plan_receipts)</span>
               <span className="text-slate-200">{planReceipts?.plan_number}</span>
             </div>
 
             {planReceipts ? (
-              <div className="space-y-3 font-mono text-xs">
+              <div className="space-y-3 font-mono text-sm">
                 <div className="flex justify-between items-center text-slate-300">
                   <span>Execution Status:</span>
                   <span className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-bold">
@@ -288,7 +288,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
                 </div>
               </div>
             ) : (
-              <p className="text-slate-500 text-xs">No active plan metrics loaded.</p>
+              <p className="text-slate-500 text-sm">No active plan metrics loaded.</p>
             )}
           </div>
         </div>
@@ -307,7 +307,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
                 : 'bg-rose-50 border-rose-300 text-rose-800'
             }`}
           >
-            <div className="flex items-center justify-between font-mono text-xs font-bold">
+            <div className="flex items-center justify-between font-mono text-sm font-bold">
               <div className="flex items-center space-x-2">
                 {integrity?.status === 'HEALTHY' ? (
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
@@ -324,7 +324,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
             </div>
 
             {integrity && integrity.orphaned_count > 0 && (
-              <div className="mt-3 p-3 rounded bg-rose-950/80 border border-rose-800/80 font-mono text-xs text-rose-200 space-y-1">
+              <div className="mt-3 p-3 rounded bg-rose-950/80 border border-rose-800/80 font-mono text-sm text-rose-200 space-y-1">
                 <span className="font-bold block">Orphaned Receipts Detected ({integrity.orphaned_count}):</span>
                 {integrity.orphan_check_details.map((d) => (
                   <div key={d.receipt_id} className="text-[11px] text-rose-300">
@@ -341,7 +341,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
               isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
             }`}
           >
-            <div className="p-3 border-b border-slate-800/80 flex items-center justify-between font-mono text-xs">
+            <div className="p-3 border-b border-slate-800/80 flex items-center justify-between font-mono text-sm">
               <span className="font-bold text-cyan-400 uppercase tracking-wider flex items-center space-x-1.5">
                 <Hash className="w-4 h-4" />
                 <span>CRYPTOGRAPHIC HASH CHAIN (kernel.v_receipt_chain)</span>
@@ -349,7 +349,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left font-mono text-xs border-collapse">
+              <table className="w-full text-left font-mono text-sm border-collapse">
                 <thead>
                   <tr
                     className={`border-b text-[11px] font-bold uppercase tracking-wider ${

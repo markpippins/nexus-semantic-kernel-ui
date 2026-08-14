@@ -101,7 +101,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
             <span>PostgreSQL Semantic Kernel Telemetry</span>
           </h1>
           <p
-            className={`text-xs font-mono mt-0.5 ${
+            className={`text-sm font-mono mt-0.5 ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -110,7 +110,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 font-mono text-xs">
+        <div className="flex items-center space-x-2 font-mono text-sm">
           <span
             className={`px-2.5 py-1 rounded border font-semibold flex items-center space-x-1.5 ${
               isDark
@@ -143,7 +143,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         >
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">
+              <span className="text-sm font-mono text-slate-400 uppercase tracking-wider font-semibold">
                 PROPAGATION LAG
               </span>
               <Zap className="w-4 h-4 text-amber-400" />
@@ -152,7 +152,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               <span className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                 {health?.avg_lag_ms || '2.40'} <span className="text-sm font-normal text-slate-400">ms</span>
               </span>
-              <span className="text-xs font-medium text-emerald-400 flex items-center">
+              <span className="text-sm font-medium text-emerald-400 flex items-center">
                 <TrendingUp className="w-3 h-3 mr-0.5" />
                 Sub-ms WAL
               </span>
@@ -193,7 +193,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         >
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">
+              <span className="text-sm font-mono text-slate-400 uppercase tracking-wider font-semibold">
                 POLICY MATURITY
               </span>
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -202,13 +202,13 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               <span className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                 {policyMaturity?.ratio || 71}%
               </span>
-              <span className="text-xs font-medium text-emerald-400">
+              <span className="text-sm font-medium text-emerald-400">
                 {policyMaturity?.compiled_count || 5} Compiled / {policyMaturity?.data_driven_count || 2} SQL
               </span>
             </div>
           </div>
 
-          <div className="mt-3 space-y-1.5 font-mono text-xs">
+          <div className="mt-3 space-y-1.5 font-mono text-sm">
             <div className="flex justify-between text-[11px] text-slate-400">
               <span>Ratio (kernel.v_policy_maturity)</span>
               <span className="text-emerald-400 font-bold">{policyMaturity?.maturity_grade || 'ENTERPRISE'}</span>
@@ -236,7 +236,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         >
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">
+              <span className="text-sm font-mono text-slate-400 uppercase tracking-wider font-semibold">
                 RECEIPT INTEGRITY
               </span>
               <Receipt className="w-4 h-4 text-cyan-400" />
@@ -246,7 +246,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                 {receiptIntegrity?.integrity_pct || 100}%
               </span>
               <span
-                className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
+                className={`text-sm font-semibold px-1.5 py-0.5 rounded ${
                   receiptIntegrity?.orphaned_count === 0
                     ? 'bg-emerald-500/20 text-emerald-400'
                     : 'bg-rose-500/20 text-rose-400'
@@ -257,7 +257,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
             </div>
           </div>
 
-          <div className="mt-3 font-mono text-xs space-y-1">
+          <div className="mt-3 font-mono text-sm space-y-1">
             <div className="flex justify-between text-[11px] text-slate-400">
               <span>Total Receipts:</span>
               <span className="text-slate-200 font-bold">{receiptIntegrity?.total_receipts || 12}</span>
@@ -282,7 +282,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         >
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">
+              <span className="text-sm font-mono text-slate-400 uppercase tracking-wider font-semibold">
                 LISTEN BRIDGE (SSE)
               </span>
               <Radio className="w-4 h-4 text-purple-400" />
@@ -291,13 +291,13 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               <span className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                 ONLINE
               </span>
-              <span className="text-xs font-medium text-purple-400">
+              <span className="text-sm font-medium text-purple-400">
                 {health?.subscribers || 1} SSE Client(s)
               </span>
             </div>
           </div>
 
-          <div className="mt-3 font-mono text-xs space-y-1">
+          <div className="mt-3 font-mono text-sm space-y-1">
             <div className="flex justify-between text-[11px] text-slate-400">
               <span>pg_notify Channel:</span>
               <span className="text-purple-300 font-mono text-[10px] truncate max-w-[120px]">
@@ -327,7 +327,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
           </div>
           <button
             onClick={() => setActiveTab('transitions')}
-            className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 font-semibold"
+            className="text-sm font-mono text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 font-semibold"
           >
             <span>View All Transitions</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -335,7 +335,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-mono text-xs border-collapse">
+          <table className="w-full text-left font-mono text-sm border-collapse">
             <thead>
               <tr
                 className={`border-b text-[11px] font-bold uppercase tracking-wider ${
@@ -445,7 +445,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-            <span className="font-bold text-xs uppercase tracking-wider text-emerald-400">
+            <span className="font-bold text-sm uppercase tracking-wider text-emerald-400">
               LIVE SSE KERNEL EVENT BROADCASTER
             </span>
           </div>
