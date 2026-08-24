@@ -194,3 +194,5 @@ export type ActiveTab =
   | 'policy'
   | 'sse_stream'
   | 'settings';
+
+export type ThemeMode = 'dark' | 'steel' | 'light';

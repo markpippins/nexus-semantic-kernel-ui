@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+@layer utilities {
+  /* STEEL THEME STYLES */
+  .theme-steel {
+    background-color: #181d25;
+    color: #e2e8f0;
+  }
+
+  .steel-card {
+    background-color: #27303f;
+    border: 1px solid #3e4c60;
+  }
+
+  .steel-header {
+    background: linear-gradient(180deg, #2a3344 0%, #202632 100%);
+    border-color: #3e4c60;
+  }
+
+  .steel-panel {
+    background-color: #202632;
+    border-color: #3e4c60;
+  }
+
+  .steel-subpanel {
+    background-color: #1a202a;
+    border-color: #384558;
+  }
+
+  .steel-accent-text {
+    color: #70b0e0;
+  }
+
+  .steel-accent-border {
+    border-color: #70b0e0;
+  }
+
+  .steel-badge {
+    background-color: #2b3648;
+    color: #94a3b8;
+    border: 1px solid #475569;
+  }
+
+  .steel-btn {
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    border: 1px solid #64748b;
+    color: #f1f5f9;
+  }
+
+  .steel-btn:hover {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: #ffffff;
+  }
+}
