@@ -67,13 +67,13 @@ export const SseStreamView: React.FC<SseStreamViewProps> = ({
             <Radio className="w-5 h-5 text-emerald-400 animate-pulse" />
             <span>SSE Event Stream Log (<code className="text-emerald-400">pg_notify kernel_transition_committed</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Real-time server-sent events stream over <code className="text-cyan-400">/api/kernel/events/stream</code>
           </p>
         </div>
 
         {/* STREAM CONTROLS */}
-        <div className="flex items-center space-x-2 text-xs">
+        <div className="flex items-center space-x-2 text-sm">
           <button
             onClick={() => setIsPaused(!isPaused)}
             className={`px-3 py-1.5 rounded font-bold flex items-center space-x-1.5 transition-all ${
@@ -106,7 +106,7 @@ export const SseStreamView: React.FC<SseStreamViewProps> = ({
       </div>
 
       {/* FILTER BAR */}
-      <div className="flex items-center space-x-3 text-xs shrink-0">
+      <div className="flex items-center space-x-3 text-sm shrink-0">
         <div
           className={`flex-1 flex items-center px-3 py-1.5 rounded border ${
             isDark ? 'bg-slate-950 border-slate-700 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-800'
@@ -118,7 +118,7 @@ export const SseStreamView: React.FC<SseStreamViewProps> = ({
             value={filterQuery}
             onChange={(e) => setFilterQuery(e.target.value)}
             placeholder="Filter real-time SSE stream log..."
-            className="w-full bg-transparent outline-none font-mono text-xs"
+            className="w-full bg-transparent outline-none font-mono text-sm"
           />
         </div>
 
@@ -130,7 +130,7 @@ export const SseStreamView: React.FC<SseStreamViewProps> = ({
       {/* SSE LOG TERMINAL CONSOLE */}
       <div
         ref={logContainerRef}
-        className={`flex-1 rounded-lg border p-4 overflow-y-auto space-y-2 font-mono text-xs min-h-[380px] max-h-[560px] ${
+        className={`flex-1 rounded-lg border p-4 overflow-y-auto space-y-2 font-mono text-sm min-h-[380px] max-h-[560px] ${
           isDark ? 'bg-slate-950 border-slate-800 text-slate-200' : 'bg-slate-900 border-slate-800 text-slate-100'
         }`}
       >

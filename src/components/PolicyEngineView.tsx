@@ -55,14 +55,14 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <span>Policy Engine & Maturity (<code className="text-emerald-400">kernel.v_active_policy</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Compiled native rules vs Data-driven SQL invariants ratio (<code className="text-cyan-400">kernel.v_policy_maturity</code>)
           </p>
         </div>
 
         <button
           onClick={fetchPolicyData}
-          className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center space-x-1"
+          className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-bold flex items-center space-x-1"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
           <span>Refresh Policies</span>
@@ -77,7 +77,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
           }`}
         >
-          <div className="flex items-center justify-between text-xs font-bold text-emerald-400">
+          <div className="flex items-center justify-between text-sm font-bold text-emerald-400">
             <span className="uppercase tracking-wider flex items-center space-x-1">
               <Cpu className="w-4 h-4" />
               <span>COMPILED RULES (NATIVE)</span>
@@ -90,7 +90,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             <span className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
               {maturity?.compiled_count || 5}
             </span>
-            <span className="text-xs text-slate-400">Invariants in Kernel C/C++ Binary</span>
+            <span className="text-sm text-slate-400">Invariants in Kernel C/C++ Binary</span>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
           }`}
         >
-          <div className="flex items-center justify-between text-xs font-bold text-blue-400">
+          <div className="flex items-center justify-between text-sm font-bold text-blue-400">
             <span className="uppercase tracking-wider flex items-center space-x-1">
               <Database className="w-4 h-4" />
               <span>DATA-DRIVEN RULES (SQL)</span>
@@ -113,7 +113,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             <span className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
               {maturity?.data_driven_count || 2}
             </span>
-            <span className="text-xs text-slate-400">Rules evaluated via PL/pgSQL & views</span>
+            <span className="text-sm text-slate-400">Rules evaluated via PL/pgSQL & views</span>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
           }`}
         >
-          <div className="flex items-center justify-between text-xs font-bold text-purple-400">
+          <div className="flex items-center justify-between text-sm font-bold text-purple-400">
             <span className="uppercase tracking-wider flex items-center space-x-1">
               <BarChart2 className="w-4 h-4" />
               <span>KERNEL MATURITY GRADE</span>
@@ -133,7 +133,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
             <span className="text-2xl font-bold text-emerald-400">
               {maturity?.maturity_grade || 'ENTERPRISE'}
             </span>
-            <span className="text-xs text-slate-400">({maturity?.ratio || 71}% Compiled Ratio)</span>
+            <span className="text-sm text-slate-400">({maturity?.ratio || 71}% Compiled Ratio)</span>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
           isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
         }`}
       >
-        <div className="p-3 border-b border-slate-800/80 flex items-center justify-between text-xs">
+        <div className="p-3 border-b border-slate-800/80 flex items-center justify-between text-sm">
           <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
             <ShieldCheck className="w-4 h-4" />
             <span>ACTIVE POLICY INVARIANTS ({policies.length} Rules)</span>
@@ -152,7 +152,7 @@ export const PolicyEngineView: React.FC<PolicyEngineViewProps> = ({ isDark }) =>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-mono text-xs border-collapse">
+          <table className="w-full text-left font-mono text-sm border-collapse">
             <thead>
               <tr
                 className={`border-b text-[11px] font-bold uppercase tracking-wider ${

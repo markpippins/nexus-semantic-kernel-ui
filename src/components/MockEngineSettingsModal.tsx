@@ -80,7 +80,7 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
         </div>
 
         {/* PROVIDER TOGGLE */}
-        <div className="space-y-3 text-xs">
+        <div className="space-y-3 text-sm">
           <label className="block text-slate-400 font-bold uppercase">EXECUTION PROVIDER SCHEME</label>
           <div className="grid grid-cols-2 gap-3">
             <button
@@ -122,7 +122,7 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
         </div>
 
         {/* TARGET HOST INPUT */}
-        <div className="space-y-1 text-xs">
+        <div className="space-y-1 text-sm">
           <label className="block text-slate-400 font-bold uppercase">LIVE BACKEND TARGET HOST URL</label>
           <input
             type="text"
@@ -140,7 +140,7 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
 
         {/* MOCK BROADCASTING CONFIG */}
         {useMock && (
-          <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-2 text-xs">
+          <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-2 text-sm">
             <div className="flex items-center justify-between">
               <span className="font-bold text-amber-300 flex items-center space-x-1.5">
                 <Radio className="w-4 h-4 text-amber-400 animate-pulse" />
@@ -161,7 +161,7 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
 
         {/* SAMPLE CURL FOR KERNEL-SRV */}
         <div>
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+          <div className="flex items-center justify-between text-sm text-slate-400 mb-1">
             <span className="font-bold uppercase">SAMPLE KERNEL-SRV API CURL</span>
             <button
               onClick={handleCopyCurl}
@@ -180,7 +180,7 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
         <div className="flex items-center justify-between pt-3 border-t border-slate-800">
           <button
             onClick={onSeedData}
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold flex items-center space-x-1"
+            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-sm font-bold flex items-center space-x-1"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Reset Mock State</span>
@@ -189,13 +189,13 @@ export const MockEngineSettingsModal: React.FC<MockEngineSettingsModalProps> = (
           <div className="flex space-x-2">
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold"
+              className="px-4 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-slate-950 font-black text-xs uppercase"
+              className="px-4 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-slate-950 font-black text-sm uppercase"
             >
               Apply Settings
             </button>

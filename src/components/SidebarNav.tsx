@@ -86,7 +86,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         key={item.id}
         onClick={() => setActiveTab(item.id)}
         title={isCollapsed ? item.label : undefined}
-        className={`w-full flex items-center px-4 py-2 text-xs font-mono transition-colors ${
+        className={`w-full flex items-center px-4 py-2 text-sm font-mono transition-colors ${
           isActive
             ? themeMode === 'steel'
               ? 'bg-[#2b3547] text-[#70b0e0] border-r-2 border-[#70b0e0] font-semibold'
@@ -191,7 +191,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             <div className="text-[10px] text-[#8b949e] uppercase mb-1 font-bold tracking-wider">
               SSE STREAM
             </div>
-            <div className="flex items-center text-xs font-bold text-[#3fb950] font-mono">
+            <div className="flex items-center text-sm font-bold text-[#3fb950] font-mono">
               <span className="w-2 h-2 bg-[#3fb950] rounded-full mr-2 shadow-[0_0_8px_rgba(63,185,80,0.5)] animate-pulse"></span>
               CONNECTED
             </div>

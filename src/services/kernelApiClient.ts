@@ -22,21 +22,22 @@ export interface KernelApiConfig {
 }
 
 class KernelApiClient {
+  // Environment-selected mode is authoritative at startup: the live unit
+  // builds/runs with mock NOT selected, so the client boots LIVE instead of
+  // defaulting to the mock engine or honoring a stale localStorage override
+  // from a previous session. Explicit mock is selected via the .env/build
+  // configuration (VITE_KERNEL_USE_MOCK=true) or the in-UI toggle.
   private config: KernelApiConfig = {
-    useMock: true,
-    targetHost: '/api/kernel',
+    useMock: (import.meta as any).env?.VITE_KERNEL_USE_MOCK === 'true',
+    targetHost: (import.meta as any).env?.VITE_KERNEL_SRV_URL || '/api/kernel',
   };
 
   private listeners: Array<(config: KernelApiConfig) => void> = [];
 
   constructor() {
-    const savedMock = localStorage.getItem('kernel_use_mock');
-    const savedHost = localStorage.getItem('kernel_target_host');
-
-    this.config.useMock = savedMock !== null ? savedMock === 'true' : true;
-    if (savedHost) {
-      this.config.targetHost = savedHost;
-    }
+    // NOTE: no localStorage restore here — the .env/build-selected mode and
+    // target host win at startup. The in-UI toggle still switches the
+    // session, but a reload returns to the environment-selected contract.
   }
 
   public getConfig(): KernelApiConfig {
@@ -103,8 +104,8 @@ class KernelApiClient {
       const data = await res.json();
       return data.transition || data;
     } catch (err) {
-      console.warn('Real kernel-srv transition failed, falling back to mock:', err);
-      return mockKernelEngine.transition(body);
+      // Live failures stay errors — never silently fall back to mock data.
+      throw err;
     }
   }
 
@@ -118,7 +119,7 @@ class KernelApiClient {
       const data = await res.json();
       return data.transition || data;
     } catch (err) {
-      return mockKernelEngine.getTransition(eventId);
+      throw err;
     }
   }
 
@@ -134,7 +135,7 @@ class KernelApiClient {
       if (data && Array.isArray(data.chain)) return data.chain;
       return [];
     } catch (err) {
-      return mockKernelEngine.getCausalityChain(eventId);
+      throw err;
     }
   }
 
@@ -165,7 +166,7 @@ class KernelApiClient {
       const data = await res.json();
       return data.receipt || data;
     } catch (err) {
-      return mockKernelEngine.issueReceipt(body);
+      throw err;
     }
   }
 
@@ -181,7 +182,7 @@ class KernelApiClient {
       if (data && Array.isArray(data.chain)) return data.chain;
       return [];
     } catch (err) {
-      return mockKernelEngine.getReceiptChain(receiptId);
+      throw err;
     }
   }
 
@@ -218,7 +219,7 @@ class KernelApiClient {
         chains: data.chains,
       };
     } catch (err) {
-      return mockKernelEngine.getPlanReceipts(planNumber);
+      throw err;
     }
   }
 
@@ -237,7 +238,7 @@ class KernelApiClient {
       if (data && data.aggregates && typeof data.aggregates === 'object') return [data.aggregates];
       return [];
     } catch (err) {
-      return mockKernelEngine.getAggregateEvents(aggregateType, aggregateId);
+      throw err;
     }
   }
 
@@ -253,7 +254,7 @@ class KernelApiClient {
       if (data && Array.isArray(data.active_rules)) return data.active_rules;
       return [];
     } catch (err) {
-      return mockKernelEngine.getActivePolicy();
+      throw err;
     }
   }
 
@@ -286,7 +287,7 @@ class KernelApiClient {
         breakdown: data.breakdown || [],
       };
     } catch (err) {
-      return mockKernelEngine.getPolicyMaturity();
+      throw err;
     }
   }
 
@@ -302,7 +303,7 @@ class KernelApiClient {
       if (data && Array.isArray(data.recent)) return data.recent;
       return [];
     } catch (err) {
-      return mockKernelEngine.getRecentEvents(limit);
+      throw err;
     }
   }
 
@@ -338,7 +339,7 @@ class KernelApiClient {
         orphans,
       };
     } catch (err) {
-      return mockKernelEngine.getReceiptIntegrity();
+      throw err;
     }
   }
 
@@ -349,10 +350,14 @@ class KernelApiClient {
     try {
       const res = await fetch(`${this.getBaseUrl()}/health`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+      const data = await res.json();
+      // kernel-srv reports status "ok"; map to the UI vocabulary.
+      if (data && typeof data === 'object' && data.status === 'ok') {
+        return { ...data, status: 'healthy' };
+      }
+      return data as KernelHealth;
     } catch (err) {
-      const h = await mockKernelEngine.getHealth();
-      return { ...h, status: 'degraded' };
+      throw err;
     }
   }
 
@@ -381,12 +386,11 @@ class KernelApiClient {
       });
 
       eventSource.onerror = (err) => {
+        // Live SSE failures surface as errors — no silent mock stream.
         if (onError) onError(err);
       };
     } catch (err) {
       if (onError) onError(err);
-      // Fallback to mock subscription
-      return mockKernelEngine.subscribeSSE(onEvent);
     }
 
     return () => {

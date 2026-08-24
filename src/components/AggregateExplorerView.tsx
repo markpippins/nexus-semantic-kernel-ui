@@ -63,13 +63,13 @@ export const AggregateExplorerView: React.FC<AggregateExplorerViewProps> = ({
             <Boxes className="w-5 h-5 text-purple-400" />
             <span>Aggregate Event Timeline (<code className="text-purple-400">kernel.v_aggregate_events</code>)</span>
           </h1>
-          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Inspect complete state evolution ordered by sequence LSN per domain aggregate entity
           </p>
         </div>
 
         {/* AGGREGATE TARGET SELECTOR */}
-        <div className="flex items-center space-x-2 text-xs">
+        <div className="flex items-center space-x-2 text-sm">
           <select
             value={aggregateType}
             onChange={(e) => setAggregateType(e.target.value)}
@@ -109,7 +109,7 @@ export const AggregateExplorerView: React.FC<AggregateExplorerViewProps> = ({
           isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs font-bold">
+        <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-sm font-bold">
           <span className="text-purple-400 uppercase tracking-wider">
             {aggregateType} / {aggregateId} EVENT STREAM ({aggregateEvents.length} Events)
           </span>
@@ -134,7 +134,7 @@ export const AggregateExplorerView: React.FC<AggregateExplorerViewProps> = ({
                   isDark ? 'bg-slate-950 border-slate-800 hover:border-purple-500/40' : 'bg-slate-50 border-slate-300'
                 }`}
               >
-                <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center space-x-2">
                     <span className="px-2 py-0.5 rounded bg-purple-950 text-purple-300 font-bold text-[10px] border border-purple-800">
                       Seq #{evt.sequence_number}
@@ -150,7 +150,7 @@ export const AggregateExplorerView: React.FC<AggregateExplorerViewProps> = ({
                   </span>
                 </div>
 
-                <div className="mt-2 text-xs">
+                <div className="mt-2 text-sm">
                   <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
                     <span>PAYLOAD SNAPSHOT</span>
                     <button

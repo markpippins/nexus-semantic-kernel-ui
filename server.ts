@@ -10,22 +10,50 @@ app.use(express.json());
 // Target kernel-srv backend URL (default 8100 as per kernel-srv spec)
 const KERNEL_SRV_URL = process.env.KERNEL_SRV_URL || 'http://localhost:8100';
 
-// Proxy middleware or direct mock endpoint handler
-app.get(['/api/health', '/health', '/api/kernel/health'], (req, res) => {
-  res.json({
-    status: 'healthy',
-    db: true,
-    pgNotify: true,
-    subscribers: 1,
-    port: 8100,
-    service: 'kernel-srv (PostgreSQL Semantic Kernel API)',
-    timestamp: new Date().toISOString(),
-  });
+// Health reflects the upstream kernel-srv (its /health route), never a
+// synthetic "healthy" response. When the backend is unreachable the client
+// receives an explicit 503 so live failures stay visible.
+app.get(['/api/health', '/health', '/api/kernel/health'], async (req, res) => {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2000);
+    const proxyRes = await fetch(`${KERNEL_SRV_URL}/health`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (proxyRes.ok) {
+      const data = await proxyRes.json();
+      // kernel-srv reports status "ok"; map to the UI vocabulary.
+      if (data && typeof data === 'object' && data.status === 'ok') {
+        return res.json({ ...data, status: 'healthy' });
+      }
+      return res.status(proxyRes.status).json(data);
+    }
+    return res.status(proxyRes.status).json({
+      status: 'unhealthy',
+      db: false,
+      pgNotify: false,
+      subscribers: 0,
+      service: 'kernel-srv (PostgreSQL Semantic Kernel API)',
+      error: `upstream returned HTTP ${proxyRes.status}`,
+    });
+  } catch (err: any) {
+    return res.status(503).json({
+      status: 'unhealthy',
+      db: false,
+      pgNotify: false,
+      subscribers: 0,
+      service: 'kernel-srv (PostgreSQL Semantic Kernel API)',
+      error: `kernel-srv unreachable at ${KERNEL_SRV_URL}: ${err?.message || 'timeout'}`,
+    });
+  }
 });
 
-// Proxy routes for /api/kernel/* if real backend is running or fallback
-app.all('/api/kernel/*', async (req, res, next) => {
-  // If target kernel-srv is available, attempt proxy
+// Proxy /api/kernel/* to the real kernel-srv. Upstream failures are returned
+// as explicit 502/forwarded-status errors — the client never receives SPA
+// HTML for an API call, so it cannot mistake a failure for mock success.
+app.all('/api/kernel/*', async (req, res) => {
   const targetPath = req.path.replace(/^\/api\/kernel/, '');
   const targetUrl = `${KERNEL_SRV_URL}/api/kernel${targetPath}${req.url.includes('?') ? '?' + req.url.split('?')[1] : ''}`;
 
@@ -49,15 +77,27 @@ app.all('/api/kernel/*', async (req, res, next) => {
     const proxyRes = await fetch(targetUrl, fetchOptions);
     clearTimeout(timeout);
 
+    const text = await proxyRes.text();
+    let data: any = null;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text };
+    }
     if (proxyRes.ok) {
-      const data = await proxyRes.json();
       return res.status(proxyRes.status).json(data);
     }
-  } catch (err) {
-    // If backend is not running locally on 8100, allow frontend client to use mock engine directly
+    return res.status(proxyRes.status).json({
+      status: 'error',
+      message: `kernel-srv returned HTTP ${proxyRes.status}`,
+      upstream: data,
+    });
+  } catch (err: any) {
+    return res.status(502).json({
+      status: 'error',
+      message: `kernel-srv unreachable at ${KERNEL_SRV_URL}: ${err?.message || 'timeout'}`,
+    });
   }
-
-  next();
 });
 
 async function startServer() {
